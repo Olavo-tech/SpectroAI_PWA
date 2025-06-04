@@ -1,0 +1,141 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link rel="manifest" href="manifest.json" />
+
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta charset="UTF-8" />
+    <title>Spectro AI – Ask Me Anything!</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:400,600,800&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:700&display=swap">
+    <link rel="stylesheet" href="style.css">
+    <style>
+      /* Inline style for header opacity and blur */
+      header {
+        background: rgba(24, 25, 38, var(--header-bg-opacity));
+        backdrop-filter: blur(8px) saturate(1.2);
+      }
+    </style>
+    <link rel="icon" type="image/png" href="/Logo_Spectro-removebg-preview.png">
+    <style>
+      /* @tweakable Logo display properties */
+      .name-logo {
+        /** @tweakable Logo size scaling factor */
+        --logo-scale: 1.5;
+        
+        /** @tweakable Logo hover effect intensity */
+        --logo-hover-intensity: 1.1;
+        
+        /** @tweakable Logo glow opacity */
+        --logo-glow-opacity: 0.96;
+        
+        /** @tweakable Logo border radius */
+        --logo-border-radius: 50%;
+        
+        display: flex;
+        align-items: center;
+        gap: 0.5em;
+      }
+
+      .name-logo img {
+        width: calc(2rem * var(--logo-scale));
+        height: calc(2rem * var(--logo-scale));
+        border-radius: var(--logo-border-radius);
+        object-fit: contain;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        
+        /** @tweakable Logo border properties */
+        border: calc(0.15rem * var(--logo-scale)) solid rgba(20, 255, 236, 0.3);
+      }
+
+      .name-logo:hover img {
+        transform: scale(var(--logo-hover-intensity));
+        box-shadow: 0 0 15px rgba(20, 255, 236, var(--logo-glow-opacity));
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="name-logo">
+        <img src="/Logo_Spectro-removebg-preview.png" alt="Spectro AI Logo" />
+        <span>Spectro AI</span>
+      </div>
+      <button id="menu-button" aria-label="Open menu">☰</button>
+    </header>
+
+    <div id="menu-overlay"></div>
+    <div id="side-menu">
+      <div class="menu-section">
+        <h3>AI Mode</h3>
+        <select id="ai-mode-select">
+          <option value="spectro">Spectro AI (Standard)</option>
+          <option value="light">Spectro Fast</option>
+          <option value="pro">Spectro Advanced</option>
+        </select>
+      </div>
+      <div class="menu-section">
+        <h3>Language</h3>
+        <select id="language-select">
+          <!-- Language options will be added here by JS -->
+        </select>
+      </div>
+      <div class="menu-section">
+        <h3>Conversation History</h3>
+        <ul id="history-list">
+            <!-- History items will be added here by JS -->
+        </ul>
+      </div>
+      <div class="menu-section">
+        <button id="reset-button">Reset Chat</button>
+      </div>
+    </div>
+
+    <main id="chat" aria-live="polite"></main>
+
+    <div id="selected-files-overlay">
+      <div id="selected-files"></div>
+    </div>
+
+    <div id="image-modal" class="image-modal">
+      <button id="modal-close-btn" class="modal-close-btn" aria-label="Close image">×</button>
+      <img id="modal-image" src="" alt="Full size image" />
+    </div>
+
+    <form id="input-bar" autocomplete="off">
+      <div class="input-row">
+        <button type="button" id="file-btn" aria-label="Attach files" title="Attach files">📎</button>
+        <input type="file" id="file-input" accept="image/*,.pdf,.txt,.doc,.docx" multiple style="display: none;">
+        <textarea id="user-input" rows="1" maxlength="1000" placeholder="Type a message…" required></textarea>
+        <button type="button" id="options-btn" aria-label="Options" title="Options">⋮</button>
+        <div id="options-dropdown" class="options-dropdown">
+          <button type="button" class="dropdown-item" id="clear-chat-btn">Clear Chat</button>
+          <button type="button" class="dropdown-item" id="change-language-btn">Change Language</button>
+          <button type="button" class="dropdown-item" id="create-image-btn">Create Image</button>
+          <button type="button" class="dropdown-item" id="settings-btn">Settings</button>
+        </div>
+        <div id="button-column">
+          <button type="button" id="gen-btn" aria-label="Generate">Create</button>
+          <button type="submit" id="send-btn" aria-label="Send">Send</button>
+        </div>
+      </div>
+    </form>
+
+    <script type="importmap">
+      {
+        "imports": {
+          "marked": "https://cdn.jsdelivr.net/npm/marked@12.0.2/lib/marked.esm.js"
+        }
+      }
+    </script>
+    <script type="module" src="script.js"></script>
+    <script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('sw.js');
+  }
+</script>
+
+  </body>
+</html>
